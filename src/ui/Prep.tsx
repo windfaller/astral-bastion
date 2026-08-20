@@ -1,12 +1,12 @@
 import { CHARACTERS } from '../game/data/characters';
 import type { StageDef } from '../game/types';
 import type { RunState } from '../game/types';
-import { Art, charArt } from './Art';
+import { Art, assetUrl, charArt } from './Art';
 
 export function Prep({ stage, run, onFight, onBack }: { stage: StageDef; run: RunState; onFight: () => void; onBack: () => void }) {
   return (
     <section className="panel screen prep-screen">
-      <div className="prep-bg" style={{ backgroundImage: 'url(/assets/bg/moonlight.webp)' }} />
+      <div className="prep-bg" style={{ backgroundImage: `url(${assetUrl('assets/bg/moonlight.webp')})` }} />
       <header className="bar">
         <h2>{stage.name} / {stage.nameEn}</h2>
         <button className="btn" onClick={onBack}>地圖</button>

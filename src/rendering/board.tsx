@@ -8,6 +8,7 @@ import { ENEMIES } from '../game/data/enemies';
 import { AnimQueue, poseFor, type AnimSpeed } from './animations';
 import { createVfx } from './vfx';
 import { play } from '../audio/cues';
+import { assetUrl } from '../ui/Art';
 
 const SLOT_LAYER = 2;
 const UNIT_LAYER = 3;
@@ -34,9 +35,9 @@ interface Props {
 }
 
 function artUrl(kind: 'char' | 'enemy' | 'boss', id: string, file = 'full.webp'): string {
-  if (kind === 'char') return `/assets/characters/${id}/${file}`;
-  if (kind === 'boss') return `/assets/boss/${id}.webp`;
-  return `/assets/enemies/${id}.webp`;
+  if (kind === 'char') return assetUrl(`assets/characters/${id}/${file}`);
+  if (kind === 'boss') return assetUrl(`assets/boss/${id}.webp`);
+  return assetUrl(`assets/enemies/${id}.webp`);
 }
 
 function loadTex(url: string): Promise<THREE.Texture | null> {
@@ -165,7 +166,7 @@ export function Board({ sim, version, anim, speed, reduced, onReady, onSlotHit, 
     cam.add(backdrop);
     scene.add(cam);
     void (async () => {
-      const tex = (await loadTex('/assets/bg/battlefield.webp')) ?? (await loadTex('/assets/bg/title.webp'));
+      const tex = (await loadTex(assetUrl('assets/bg/battlefield.webp'))) ?? (await loadTex(assetUrl('assets/bg/title.webp')));
       if (tex) {
         tex.colorSpace = THREE.SRGBColorSpace;
         scene.background = tex;

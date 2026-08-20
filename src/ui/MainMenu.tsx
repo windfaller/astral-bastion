@@ -1,7 +1,8 @@
+import { assetUrl } from './Art';
 export function MainMenu({ hasRun, onContinue, onNew, onCollection, onSettings }: { hasRun: boolean; onContinue: () => void; onNew: () => void; onCollection: () => void; onSettings: () => void }) {
   return (
     <section className="menu-screen">
-      <div className="menu-bg" style={{ backgroundImage: 'url(/assets/bg/title.webp)' }} />
+      <div className="menu-bg" style={{ backgroundImage: `url(${assetUrl('assets/bg/title.webp')})` }} />
       <div className="menu-shade" />
       <div className="menu-card">
         <p className="eyebrow">INDEPENDENT PROTOTYPE</p>

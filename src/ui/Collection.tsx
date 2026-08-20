@@ -4,7 +4,7 @@ import { ENEMY_LIST } from '../game/data/enemies';
 import { LINKS } from '../game/data/links';
 import { RELICS } from '../game/data/relics';
 import type { MetaSave } from '../game/types';
-import { Art, charArt } from './Art';
+import { Art, assetUrl, charArt } from './Art';
 
 const TABS = ['valk', 'skins', 'links', 'enemies', 'relics', 'boss', 'rank'] as const;
 type Tab = (typeof TABS)[number];
@@ -51,7 +51,7 @@ export function Collection({ meta, onBack }: { meta: MetaSave; onBack: () => voi
           const seen = meta.seenLinks.includes(l.id) || (meta.unlockedChars.includes(l.a) && meta.unlockedChars.includes(l.b));
           return (
             <article key={l.id} className={`card ${seen ? '' : 'locked'}`}>
-              <Art src={seen ? `/assets/links/${l.id}.webp` : ''} alt={l.name} fallback={seen ? l.name : '???'} />
+              <Art src={seen ? assetUrl(`assets/links/${l.id}.webp`) : ''} alt={l.name} fallback={seen ? l.name : '???'} />
               <strong>{seen ? l.name : '???'}</strong>
               <small>{seen ? l.nameEn : '未發現'}</small>
               {seen && <p>{l.desc}</p>}
@@ -62,7 +62,7 @@ export function Collection({ meta, onBack }: { meta: MetaSave; onBack: () => voi
           const seen = meta.seenEnemies.includes(e.id) || e.id === 'shade';
           return (
             <article key={e.id} className={`card ${seen ? '' : 'locked'}`}>
-              <Art src={seen ? `/assets/enemies/${e.id}.webp` : ''} alt={e.name} color={e.color} fallback={seen ? e.name : '???'} />
+              <Art src={seen ? assetUrl(`assets/enemies/${e.id}.webp`) : ''} alt={e.name} color={e.color} fallback={seen ? e.name : '???'} />
               <strong>{seen ? e.name : '???'}</strong>
               <small>{seen ? e.nameEn : '未發現'}</small>
               {seen && <p>{e.desc}</p>}
@@ -82,7 +82,7 @@ export function Collection({ meta, onBack }: { meta: MetaSave; onBack: () => voi
         })}
         {tab === 'boss' && (
           <article className={`card ${meta.seenBoss ? '' : 'locked'}`}>
-            <Art src={meta.seenBoss ? '/assets/boss/yamato-phase2.webp' : ''} alt="YAMATO-0" fallback={meta.seenBoss ? 'YAMATO-0' : '???'} color="#f43f5e" />
+            <Art src={meta.seenBoss ? assetUrl('assets/boss/yamato-phase2.webp') : ''} alt="YAMATO-0" fallback={meta.seenBoss ? 'YAMATO-0' : '???'} color="#f43f5e" />
             <strong>{meta.seenBoss ? 'YAMATO-0' : '???'}</strong>
             <p>{meta.seenBoss ? '二階段：毀閘、改道、鎖定部署格。' : '未發現的首領記憶。'}</p>
           </article>

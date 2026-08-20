@@ -1,5 +1,10 @@
 import { useState } from 'react';
 
+export function assetUrl(path: string): string {
+  const p = path.startsWith('/') ? path.slice(1) : path;
+  return `${import.meta.env.BASE_URL}${p}`;
+}
+
 export function Art({ src, alt, className, fallback, color }: { src: string; alt: string; className?: string; fallback?: string; color?: string }) {
   const [bad, setBad] = useState(false);
   if (bad || !src) {
@@ -14,5 +19,5 @@ export function Art({ src, alt, className, fallback, color }: { src: string; alt
 }
 
 export function charArt(id: string, kind: 'portrait' | 'full' | 'cutin' | 'skin' = 'portrait'): string {
-  return `/assets/characters/${id}/${kind}.webp`;
+  return assetUrl(`assets/characters/${id}/${kind}.webp`);
 }

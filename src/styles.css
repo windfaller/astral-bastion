@@ -85,6 +85,7 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 .board-root { position: absolute; inset: 0; overflow: hidden; }
+.board-root::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 90px 28px rgba(5, 8, 15, 0.42); }
 .hud { position: absolute; inset: 0; pointer-events: none; }
 .hud * { pointer-events: auto; }
 .hud-top { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }

@@ -288,7 +288,7 @@ export function Board({ sim, version, anim, speed, reduced, onReady, onSlotHit, 
       map: winTex,
       emissive: 0x8fb8d8,
       emissiveMap: winTex,
-      emissiveIntensity: 0.55,
+      emissiveIntensity: 0.28,
       roughness: 0.78,
       metalness: 0.18,
     });
@@ -308,26 +308,32 @@ export function Board({ sim, version, anim, speed, reduced, onReady, onSlotHit, 
       const h = 3.4 + hash01(i, 6) * (reduced ? 6 : 10);
       const box = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), buildMat);
       box.position.set(Math.cos(a) * rad, h * 0.5 - 0.34, Math.sin(a) * rad);
+      // Camera sits at +Z (~18) looking toward origin — skip the foreground half.
+      if (box.position.z > 3) continue;
       box.rotation.y = a + 0.4;
       box.castShadow = !reduced;
       scene.add(box);
       const strip = new THREE.Mesh(new THREE.BoxGeometry(w * 0.92, 0.07, d * 0.92), stripMat);
       strip.position.set(box.position.x, h * 0.22 + hash01(i, 7) * h * 0.4, box.position.z);
+      if (strip.position.z > 3) continue;
       strip.rotation.y = box.rotation.y;
       scene.add(strip);
       if (!reduced && i % 4 === 0) {
         const cap = new THREE.Mesh(new THREE.BoxGeometry(w * 0.55, 0.35, d * 0.55), stripMat);
         cap.position.set(box.position.x, h - 0.12, box.position.z);
+        if (cap.position.z > 3) continue;
         scene.add(cap);
       }
     }
     if (!reduced) {
       for (let i = 0; i < 8; i++) {
-        const a = -Math.PI * 0.15 + i * 0.22 + hash01(i, 9) * 0.05;
+        const a = Math.PI * 1.15 + i * 0.22 + hash01(i, 9) * 0.05;
         const rad = 20.5 + (i % 3) * 0.8;
         const h = 7 + hash01(i, 10) * 8;
         const box = new THREE.Mesh(new THREE.BoxGeometry(1.6 + (i % 3) * 0.4, h, 1.3), buildMat);
-        box.position.set(Math.cos(a) * rad - 2, h * 0.5 - 0.3, Math.sin(a) * rad - 6);
+        const z = Math.min(-12, Math.sin(a) * rad);
+        box.position.set(Math.cos(a) * rad, h * 0.5 - 0.3, z);
+        if (box.position.z > 3) continue;
         scene.add(box);
       }
     }
@@ -627,7 +633,7 @@ export function Board({ sim, version, anim, speed, reduced, onReady, onSlotHit, 
     if (!reduced) {
       composer = new EffectComposer(renderer);
       composer.addPass(new RenderPass(scene, cam));
-      composer.addPass(new UnrealBloomPass(new THREE.Vector2(el.clientWidth, el.clientHeight), 0.38, 0.48, 0.84));
+      composer.addPass(new UnrealBloomPass(new THREE.Vector2(el.clientWidth, el.clientHeight), 0.16, 0.48, 0.92));
       composer.addPass(new OutputPass());
     }
     const clock = new THREE.Clock();
